@@ -5,12 +5,26 @@ let currentStreak = 0;
 let bestStreak = 0;
 let achievements = [];
 
-// Sound effects
+// Sound effects with error handling
 const sounds = {
     win: new Audio('https://assets.mixkit.co/active_storage/sfx/2018/win-sparkle.wav'),
     lose: new Audio('https://assets.mixkit.co/active_storage/sfx/2019/lose-drum.wav'),
     tie: new Audio('https://assets.mixkit.co/active_storage/sfx/2020/tie-bell.wav'),
     click: new Audio('https://assets.mixkit.co/active_storage/sfx/2021/click-pop.wav')
+};
+
+// Safe sound play function
+const playSound = (soundName) => {
+    try {
+        if (sounds[soundName]) {
+            sounds[soundName].currentTime = 0;
+            sounds[soundName].play().catch(error => {
+                console.log(`Sound play failed: ${error}`);
+            });
+        }
+    } catch (error) {
+        console.log(`Sound system error: ${error}`);
+    }
 };
 
 // Achievement definitions
@@ -62,7 +76,7 @@ const handleTie = () => {
   console.log("Game is a tie.");
   resultMessage.innerText = "It's a tie! Play again!";
   resultMessage.style.background = "linear-gradient(135deg, #64748b, #475569)";
-  sounds.tie.play();
+  playSound('tie');
   currentStreak = 0;
   updateStreak(false);
 };
@@ -86,7 +100,7 @@ const showRoundResult = (playerWins, playerChoice, aiChoice) => {
     console.log("You Win!");
     resultMessage.innerText = `You win! Your ${playerChoiceFormatted} beats ${aiChoiceFormatted}`;
     resultMessage.style.background = "linear-gradient(135deg, #22c55e, #16a34a)";
-    sounds.win.play();
+    playSound('win');
     if (currentStreak >= 3) {
         initConfetti();
     }
@@ -97,7 +111,7 @@ const showRoundResult = (playerWins, playerChoice, aiChoice) => {
     console.log("You Lose");
     resultMessage.innerText = `You lose! ${aiChoiceFormatted} beats your ${playerChoiceFormatted}`;
     resultMessage.style.background = "linear-gradient(135deg, #ef4444, #dc2626)";
-    sounds.lose.play();
+    playSound('lose');
   }
   
   // Add animation effect to the result message
@@ -170,7 +184,7 @@ const addSelectionFeedback = (selectedOption) => {
 optionButtons.forEach((optionButton) => {
   optionButton.addEventListener("click", () => {
     const playerChoice = optionButton.getAttribute("id");
-    sounds.click.play();
+    playSound('click');
     addSelectionFeedback(optionButton);
     playRound(playerChoice);
   });

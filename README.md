@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Modern Rock Paper Scissors Game
 
 A beautifully designed, interactive Rock Paper Scissors game with modern UI/UX features including achievements, streaks, sound effects, and confetti animations.
@@ -69,3 +70,7 @@ Feel free to fork this project and submit pull requests for any improvements!
 ## License
 
 MIT License - feel free to use this project for learning or personal use. 
+=======
+# stonepaperscissor
+3rd repo
+>>>>>>> 358f631a65af7f10a6dcd1ff1c5f84537aef8e6a
